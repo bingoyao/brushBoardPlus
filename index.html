@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Canvas画板</title>
+    <link rel="stylesheet" href="./css/index.css">
+    
+</head>
+<body>
+    
+    <div id="container">
+        <div id="toolBarCont">
+            <canvas id="toolbar" width="800" height="50"></canvas>
+        </div>
+        <div id="boardCont">
+            <canvas id="board" width="800" height="550"></canvas>
+        </div>
+    </div>
+    
+    <script src="./script/index.js"></script>
+    <script>
+        window.onload = function(){
+            new Brush();
+        };
+    </script>
+</body>
+</html>
