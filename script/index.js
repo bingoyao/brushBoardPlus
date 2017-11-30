@@ -20,9 +20,6 @@ Brush.prototype.init = function(){
     
     this.initToolBar();
     this.initBoard();
-    this.clearTip.addEventListener('mousemove',function(){
-        return false;
-    });
 }
 //绘制工具条
 /*
@@ -82,10 +79,13 @@ Brush.prototype.initToolBar = function(){
     let ctx = this.barCtx;
     ctx.font = "normal 30px consolas";
     ctx.fillText('C',265,35,50,50);
+    ctx.fillText('S',315,35,50,50);
+    ctx.fillText('BrushWidth:',600,35,100,20);
+    _this.showBrushWidth();
     this.toolBar.addEventListener('click',function(e){
         let index = Math.floor(e.offsetX/50);
         //console.log(index);
-        if(index>5) return;
+        if(index>6) return;
         _this.drawToolBar(_this.currentBarOpt,index);
         _this.currentBarOpt = index;
         _this.isEraser = false;
@@ -96,11 +96,13 @@ Brush.prototype.initToolBar = function(){
             case 3:_this.brushStyle="#86c440";break;
             case 4:_this.isEraser=true;break;
             case 5:_this.clearBoard();break;
+            case 6:_this.saveAsImg();break;
             default: ;
         }
     });
 
 }
+//初始化画板
 Brush.prototype.initBoard = function(){
     let _this = this;
     let drawFlag = false;
@@ -173,6 +175,7 @@ Brush.prototype.initBoard = function(){
         }else if(e.wheelDelta == -120 && _this.brushWidth > 2){
             _this.brushWidth --;
         }
+        _this.showBrushWidth();
     });
     document.body.addEventListener('mouseup',function(){
         drawFlag = false;
@@ -182,6 +185,10 @@ Brush.prototype.initBoard = function(){
     });
     
 };
+//显示橡皮擦
+/*
+    @param x y 橡皮擦坐标
+*/
 Brush.prototype.showClearTip = function(x,y){
     this.clearTip.style.width = this.brushWidth + "px";
     this.clearTip.style.height = this.brushWidth + "px";
@@ -191,7 +198,22 @@ Brush.prototype.showClearTip = function(x,y){
     this.clearTip.style.left = x + 5 +"px";
     document.body.appendChild(this.clearTip);
 };
+//清除整块画板
 Brush.prototype.clearBoard = function(){
     let ctx = this.boardCtx;
     ctx.clearRect(0,0,800,550);
+}
+// 保存为图片
+Brush.prototype.saveAsImg = function(){
+    let link = document.createElement('a');
+    link.href = this.board.toDataURL();
+    link.download = "canvas_brush_board";
+    link.click();
+}
+//显示当前画笔宽度
+Brush.prototype.showBrushWidth = function(){
+    let ctx = this.barCtx;
+    ctx.font = "normal 20px consolas";
+    ctx.clearRect(700,0,50,50);
+    ctx.fillText(this.brushWidth+'px',700,35,40,20);
 }
