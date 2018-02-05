@@ -207,7 +207,7 @@ Brush.prototype.clearBoard = function(){
 Brush.prototype.saveAsImg = function(){
     let link = document.createElement('a');
     link.href = this.board.toDataURL();
-    link.download = "canvas_brush_board";
+    link.download = "canvas_brush_board.jpg";
     link.click();
 }
 //显示当前画笔宽度
